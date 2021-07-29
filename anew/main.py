@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tqdm import tqdm
-from anew.FM import FM
+from anew.fm import FM
 from anew.utils import *
 
 
