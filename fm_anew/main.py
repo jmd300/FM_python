@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from tqdm import tqdm
-from anew.fm import FM
-from anew.utils import *
+from fm_anew.model import FM
+from fm_anew.utils import *
 
 
 if __name__ == '__main__':
-    train_data = "data/cancer_train.csv"
-    validate_data = "data/cancer_validate.csv"
+    train_data = "../data/cancer_train.csv"
+    validate_data = "../data/cancer_validate.csv"
 
     fm = FM()
     fm.load_train_data_set(train_data)

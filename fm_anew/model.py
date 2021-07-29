@@ -4,7 +4,7 @@ from __future__ import division
 from random import normalvariate  # 正态分布
 from sklearn import preprocessing
 from tqdm import tqdm
-from anew.utils import *
+from fm_anew.utils import *
 
 '''
     data : 数据
