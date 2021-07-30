@@ -20,11 +20,16 @@ class FmLayer(tf.keras.layers.Layer):
         self.w = self.add_weight(name='w', shape=(input_shape[-1], 1),
                                  initializer=tf.random_normal_initializer(),
                                  trainable=True,
-                                 regularizer=tf.keras.regularizers.l2(self.w_reg))
+                                 # regularizer=tf.keras.regularizers.l2(self.v_reg)
+                                 )
+
         self.v = self.add_weight(name='v', shape=(input_shape[-1], self.k),
-                                 initializer=tf.random_normal_initializer(),
+                                 initializer=tf.random_normal_initializer(0, 0.2),
                                  trainable=True,
-                                 regularizer=tf.keras.regularizers.l2(self.v_reg))
+                                 # regularizer=tf.keras.regularizers.l2(self.v_reg)
+                                 )
+
+        # normalvariate(0, 0.2) * np.ones((feature_num, self.dimension_num))
 
     def call(self, inputs, **kwargs):
         if K.ndim(inputs) != 2:

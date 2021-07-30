@@ -1,34 +1,33 @@
+from math import exp
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
 
-def create_criteo_dataset(file_path, test_size=0.3):
+def sigmoid(inx):
+    # return 1.0 / (1 + exp(-inx))
+    return 1. / (1. + exp(-max(min(inx, 15.), -15.)))
+
+
+def data_set_preprocessing(file_path, _dense_index, _sparse_index, test_size=0):
     data = pd.read_csv(file_path)
+    row_num, col_num = data.shape
 
-    dense_features = ['I' + str(i) for i in range(1, 14)]
-    sparse_features = ['C' + str(i) for i in range(1, 27)]
+    data.columns = [str(i) for i in range(col_num)]  # 更改/添加Frame的列名
 
-    # 缺失值填充
-    data[dense_features] = data[dense_features].fillna(0)
-    data[sparse_features] = data[sparse_features].fillna('-1')
+    data.dropna()  # 缺失值丢弃
 
-    # 归一化
+    # 数值型特征归一化，如果测试集不使用训练集最大值最小值列表，准确率不好
+    dense_features = [str(i) for i in _dense_index]
     data[dense_features] = MinMaxScaler().fit_transform(data[dense_features])
-    # one_hot编码
+
+    # 类别型特征进行one_hot编码
+    # sparse_features = [str(i) for i in _sparse_index]
     data = pd.get_dummies(data)
 
-    # 数据集划分
-    X = data.drop(['label'], axis=1).values
-    y = data['label']
+    label_index = str(data.columns[-1])
+    X = data.drop([label_index], axis=1).values
+    y = data[label_index]
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-
     return (X_train, y_train), (X_test, y_test)
-
-
-def data_set_preprocessing():
-    pass
-
-
-def split_train_and_test(file_path, test_size=0.3):
-    pass

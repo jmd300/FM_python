@@ -70,7 +70,9 @@ class FM(object):
         # 感觉这里的初始化方式也可以变化的，当然现在效果挺好的
         w_0 = 0.0
         w = np.zeros((feature_num, 1))
+        # 这个会产生每个行向量相同的结果？？效果还挺好呢？
         v = normalvariate(0, 0.2) * np.ones((feature_num, self.dimension_num))
+        # v = np.random.normal(0, 0.2, (feature_num, self.dimension_num))
 
         for _ in tqdm(range(self.epoch)):
             # 每次使用一个样本优化
@@ -111,6 +113,7 @@ class FM(object):
         item_count = 0
         error = 0
 
+        print("==================")
         for x in range(data_nums):
             item_count += 1
             inter_1 = _validate_data[x] * v
@@ -118,12 +121,17 @@ class FM(object):
             interaction = sum(np.multiply(inter_1, inter_1) - inter_2) / 2.0
             p = w_0 + _validate_data[x] * w + interaction
             pre = sigmoid(p[0, 0])
+            if pre < 0.5:
+                print(0)
+            else:
+                print(1)
             if pre < 0.5 and _validate_label[x] == 1.0:
                 error += 1
             elif pre >= 0.5 and _validate_label[x] == -1.0:
                 error += 1
             else:
                 continue
+        print("==================")
         value = 1 - float(error) / item_count
         return value
 

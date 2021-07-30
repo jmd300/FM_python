@@ -47,8 +47,12 @@ if __name__ == '__main__':
         text_save("../data/grid_record.txt", grid_record)
         print("best is ", best_accuracy, best_epoch, best_learning_rate)
     else:
-        fm.fit(_epoch=2, _learning_rate=0.01, _dimension_num=30)
+        fm.fit(_epoch=2, _learning_rate=0.01, _dimension_num=10)
         accuracy_train = fm.get_accuracy(False)
         accuracy_test = fm.get_accuracy()
+
+        '''print(fm.w)
+        print(fm.w_0)
+        print(fm.v)'''
         print("accuracy_train is ", accuracy_train)
         print("accuracy_test is ", accuracy_test)
